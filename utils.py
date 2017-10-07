@@ -1,9 +1,15 @@
 def lines (file):
+    """
+    Adds an empty line at the end of the file
+    """
     for line in file: 
         yield line
-    yield '\ln'
+    yield '\n'
 
 def blocks(file):
+    """
+
+    """
     block = []
     for line in lines(file):
         if line.strip():

@@ -1,19 +1,22 @@
-def lines (file):
+def lines(file):
     """
     Adds an empty line at the end of the file
     """
-    for line in file: 
-        yield line
-    yield '\n'
+    with open(file, 'r') as input:
+        for line in input:
+            yield line
+        yield '\n'
+
 
 def blocks(file):
     """
-
+    Join the paragraph text lines in a single string 
     """
     block = []
-    for line in lines(file):
-        if line.strip():
-            block.append(line)
-        elif block:
-            yield ''.join(block).strip()
-            block = []
+    with open(file, 'r') as input:
+        for line in input:
+            if line.strip():
+                block.append(line)
+            elif block:
+                yield ''.join(block).strip()
+                block = []

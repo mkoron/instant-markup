@@ -1,3 +1,14 @@
+"""
+The program takes a text file as input and gives a html formatetd file
+as output.
+
+Example:
+
+    You can use the program as following:
+
+        python markup.py input_file.txt output_file.html
+
+"""
 import sys
 import handlers
 import parsers

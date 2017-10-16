@@ -77,6 +77,9 @@ class HTMLRenderer(Handler):
     def sub_emphasis(self, match):
         return '<em>{}</em>'.format(match.group(1))
 
+    def sub_bold(self, match):
+        return '<strong>{}</strong>'.format(match.group(1))
+
     def sub_url(self, match):
         return '<a href="{url}">{link}</a>'.format(
             url=match.group(1), link=match.group(1))

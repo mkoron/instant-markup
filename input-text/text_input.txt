@@ -1,7 +1,7 @@
 Welcome to World Wide Spam, Inc.
 
 
-These are the corporate web pages of *World Wide Spam*, Inc. We hope
+These are the corporate web pages of //World Wide Spam//, Inc. We hope
 you find your stay enjoyable, and that you will sample many of our
 products.
 
@@ -11,7 +11,7 @@ World Wide Spam was started in the summer of 2000. The business
 concept was to ride the dot-com wave and to make money both through
 bulk email and by selling canned meat online.
 
-After receiving several complaints from customers who weren't
+After receiving several complaints from **customers** who weren't
 satisfied by their bulk email, World Wide Spam altered their profile,
 and focused 100% on canned goods. Today, they rank as the world's
 13,892nd online supplier of SPAM.

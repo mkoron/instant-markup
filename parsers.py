@@ -50,6 +50,7 @@ class BasicTextParser(Parser):
         self.addRule(rules.TitleRule())
         self.addRule(rules.HeadingRule())
         self.addRule(rules.ParagraphRule())
-        self.addFilter('\*(.+?)\*', 'emphasis')
+        self.addFilter('\/\/(.+?)\/\/', 'emphasis')
+        self.addFilter('\*\*(.+?)\*\*', 'bold')
         self.addFilter('(http://[\.a-zA-Z/]+)', 'url')
         self.addFilter('([\.a-zA-Z]+@[\.a-zA-Z]+[a-zA-Z]+)', 'mail')

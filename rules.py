@@ -2,6 +2,7 @@ class Rule:
     """
     Base class for all rules.
     """
+    type = ''
 
     def action(self, block, handler):
         handler.start(self.type)
@@ -36,48 +37,53 @@ class TitleRule(HeadingRule):
         return HeadingRule.condition(self, block)
 
 
-class ListItemRule(Rule):
-    """
-    A list item is a paragraph that begins with a hypen. During formatting
-    the hypen is removed.
-    """
-    type = 'listitem'
-
-    def condition(self, block):
-        return block[0] == '-'
-
-    def action(self, block, handler):
-        handler.start(self.type)
-        handler.feed(block[1:].strip())
-        handler.end(self.type)
-
-
-class ListRule(ListItemRule):
+class ListRule(Rule):
     """
     A list begins between a block that is not a list item and a subsequent
     list item. It ends after the last consecutive item.
     """
     type = 'list'
-    inside = False
+
+    def __init__(self):
+        self.inside = False
 
     def condition(self, block):
-        return True
+        if not self.inside and block[0] == '-':
+            return True
+        elif self.inside and block[0] != '-':
+            return True
+        return False
 
     def action(self, block, handler):
-        if not self.inside and ListItemRule.condition(self, block):
+        if not self.inside:
             handler.start(self.type)
             self.inside = True
-        elif self.inside and not ListItemRule.condition(self, block):
+            return False
+        else:
             handler.end(self.type)
-            self.indside = False
-        return False
+            self.inside = False
+            return True
+
+
+class ListItemRule(ListRule):
+    """
+    A list item is a paragraph that begins with a hyphen. During formatting
+    the hyphen is removed.
+    """
+    type = 'listitem'
+
+    def action(self, block, handler):
+        handler.start(self.type)
+        handler.feed(block[1:].strip())
+        handler.end(self.type)
+        return True
 
 
 class ParagraphRule(Rule):
     """
     A paragraph is a block of text which isn't covered by any other rules.
     """
-    type = 'pararaph'
+    type = 'paragraph'
 
     def condition(self, block):
         return True

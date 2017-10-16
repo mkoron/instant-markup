@@ -10,7 +10,7 @@ def lines(file):
 
 def blocks(file):
     """
-    Join the paragraph text lines in a single string 
+    Join the paragraph text lines in a single string
     """
     block = []
     with open(file, 'r') as input:

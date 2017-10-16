@@ -2,11 +2,15 @@ class Handler:
     """
     An object that handles method calls from the Parser.
 
-    The Parser will call the start() and end() methods at the 
-    beginning each of each block. The sub() method will be used in 
+    The Parser will call the start() and end() methods at the
+    beginning each of each block. The sub() method will be used in
     regular expression substitution.
 
     """
+
+    def __init__(self):
+        self.result = ''
+
     def callback(self, prefix, name, *args):
         method = getattr(self, prefix + name, None)
         if callable(method):
@@ -14,12 +18,17 @@ class Handler:
 
     def start(self, name):
         self.callback('start_', name)
-    
+
     def end(self, name):
         self.callback('end_', name)
-    
+
     def sub(self, name):
-        return lambda match: self.callback('sub_', name, match) or match.group(0)
+        return lambda match: self.callback(
+            'sub_', name, match) or match.group(0)
+
+    def getResult(self):
+        return self.result
+
 
 class HTMLRenderer(Handler):
     """
@@ -28,35 +37,53 @@ class HTMLRenderer(Handler):
     The methods in HTMLRenderer are accessed from the superclass
     Handler's start(), end() and sub().
     """
+
     def start_document(self):
-        print('<html><head><title>...</title></head><body>')
+        self.result += '<html><head><title>...</title></head><body>'
+
     def end_document(self):
-        print('</body></html>')
+        self.result += '</body></html>'
+
     def start_paragraph(self):
-        print('<p>')
+        self.result += '<p>'
+
     def end_paragraph(self):
-        print('<p>')
+        self.result += '<p>'
+
     def start_heading(self):
-        print('<h2>')
+        self.result += '<h2>'
+
     def end_heading(self):
-        print('</h2>')
+        self.result += '</h2>'
+
     def start_list(self):
-        print('<ul>')
+        self.result += '<ul>'
+
     def end_list(self):
-        print('</ul>')
+        self.result += '</ul>'
+
     def start_listitem(self):
-        print('<li>')
+        self.result += '<li>'
+
     def end_listitem(self):
-        print('</li>')
+        self.result += '</li>'
+
     def start_title(self):
-        print('<h1>')
+        self.result += '<h1>'
+
     def end_title(self):
-        print('</h1>')
+        self.result += '</h1>'
+
     def sub_emphasis(self, match):
         return '<em>{}</em>'.format(match.group(1))
+
     def sub_url(self, match):
-        return '<a href="{url}">{link}</a>'.format(url=match.group(1), link=match.group(1))
+        return '<a href="{url}">{link}</a>'.format(
+            url=match.group(1), link=match.group(1))
+
     def sub_mail(self, match):
-        return '<a href="mailto:{url}">{link}</a>'.format(url=match.group(1), link=match.group(1))
+        return '<a href="mailto:{url}">{link}</a>'.format(
+            url=match.group(1), link=match.group(1))
+
     def feed(self, data):
-        print(data)
+        self.result += data
